@@ -39,3 +39,9 @@ jobs:
 
       - name: Execute unit/feature tests
         run: vendor/bin/pest
+
+      - name: Debug
+        if: ${{ failure() }}
+        run: |
+          cat .env
+          cat stack.yml
