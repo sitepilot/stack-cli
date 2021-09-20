@@ -1,4 +1,4 @@
-<h1 align="center">Flight</h1>
+<h1 align="center">Stack</h1>
 
 <p align="center">
 <a href="https://github.com/sitepilot/stack/actions"><img src="https://github.com/sitepilot/stack/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
@@ -23,4 +23,4 @@ Coming soon!
 
 ## License
 
-Flight is open-sourced software licensed under the [MIT license](LICENSE.md).
+Stack is open-sourced software licensed under the [MIT license](LICENSE.md).
