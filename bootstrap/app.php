@@ -9,6 +9,7 @@ use Dotenv\Dotenv;
 */
 
 if (file_exists(stack_project_path('.env'))) {
+    echo stack_project_path('.env');
     Dotenv::createMutable(stack_project_path(), '.env')->load();
 }
 
