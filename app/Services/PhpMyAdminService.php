@@ -8,6 +8,8 @@ class PhpMyAdminService extends Service
 {
     protected string $name = 'phpmyadmin';
 
+    protected string $displayName = 'phpMyAdmin';
+
     protected array $defaults = [
         'enabled' => false,
         'image' => 'phpmyadmin',
