@@ -1,17 +1,14 @@
 <?php
 
-use Dotenv\Dotenv;
+use App\Stack;
 
 /*
 |--------------------------------------------------------------------------
-| Load Project Environment
+| Load Stack Environment
 |--------------------------------------------------------------------------
 */
 
-if (file_exists(stack_project_path('.env'))) {
-    echo stack_project_path();
-    Dotenv::createMutable(stack_project_path(), '.env')->load();
-}
+Stack::loadEnv();
 
 /*
 |--------------------------------------------------------------------------

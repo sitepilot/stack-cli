@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Exception;
+use Dotenv\Dotenv;
 use Illuminate\Support\Arr;
 use App\Services\VhostService;
 use Symfony\Component\Yaml\Yaml;
@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\File;
 
 class Stack
 {
+    /**
+     * Load stack environment.
+     *
+     * @return void
+     */
+    public static function loadEnv(): void
+    {
+        if (file_exists(stack_project_path('.env'))) {
+            Dotenv::createMutable(stack_project_path(), '.env')->load();
+        }
+    }
+
     /**
      * Get stack configuration.
      *
@@ -161,6 +173,8 @@ class Stack
                 File::put($envFile, $content . (strlen($content) > 0 ? "\n" : "") . "$key=$value");
             }
         }
+
+        Stack::loadEnv();
     }
 
     /**
