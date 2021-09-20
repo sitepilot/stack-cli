@@ -6,4 +6,5 @@
 .phpunit.result.cache
 stack.yml
 vhosts
+builds
 .env
