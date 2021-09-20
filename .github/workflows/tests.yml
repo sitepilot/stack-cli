@@ -33,16 +33,17 @@ jobs:
       - name: Install dependencies
         run: composer install
 
+      - name: Build container images
+        run: ./stack build
+
+      - name: Run unit/feature tests
+        run: ./stack test
+
       - name: Build application
         run: |
           export VERSION=${GITHUB_REF##*/}
           ./stack app:build --build-version=$VERSION
-
-      - name: Build container images
-        run: ./builds/stack build
-
-      - name: Run unit/feature tests
-        run: ./builds/stack test
+        if: github.event.release
 
       - name: Upload application build to release
         id: upload-release-asset
