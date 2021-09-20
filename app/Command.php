@@ -93,6 +93,14 @@ class Command extends BaseCommand
             return null;
         }
 
+        if (
+            !File::exists(stack_project_path('stack.yml'))
+            || !File::exists(stack_project_path('.env'))
+        ) {
+            $this->error('Stack not initalized, run `stack init` to initialize the stack first.');
+            return null;
+        }
+
         if (in_array('config', $validationRules) && count($service->validator()->errors()->all())) {
             $this->error("Service validation failed, please check your stack.yml file.");
 
