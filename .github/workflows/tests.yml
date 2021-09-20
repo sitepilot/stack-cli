@@ -22,8 +22,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build stack containers
-        run: ./build.sh
+      #- name: Build stack containers
+      #  run: ./build.sh
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -38,7 +38,7 @@ jobs:
           composer install
 
       - name: Execute unit/feature tests
-        run: vendor/bin/pest
+        run: ./stack test
 
       - name: Debug
         if: ${{ failure() }}
