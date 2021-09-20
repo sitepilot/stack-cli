@@ -6,6 +6,9 @@ on:
   pull_request:
   schedule:
     - cron: "0 0 * * *"
+  release:
+    types:
+      - created
 
 jobs:
   tests:
