@@ -56,8 +56,14 @@ class BuildCommand extends Command
 
                 $this->line("");
 
-                (new Process(['docker', 'build', '-t', "ghcr.io/sitepilot/$image", stack_config_path($path)]))
-                    ->setTty(false)
+                $imageURL = "docker.io/sitepilot/$image";
+
+                (new Process(['docker', 'pull', $imageURL]))
+                    ->setTimeout(900)
+                    ->setTty(Process::isTtySupported())
+                    ->run();
+
+                (new Process(['docker', 'build', '--cache-from', $imageURL, '-t', $imageURL, stack_config_path($path)]))
                     ->setTimeout(900)
                     ->setTty(Process::isTtySupported())
                     ->mustRun();

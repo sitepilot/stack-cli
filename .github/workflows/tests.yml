@@ -34,8 +34,11 @@ jobs:
         run: |
           composer install
 
-      - name: Execute unit/feature tests
-        run: ./stack test
+      - name: "Test docker build"
+        run : ./stack build
+
+      #- name: Execute unit/feature tests
+      #  run: ./stack test
 
       - name: Debug
         if: ${{ failure() }}
