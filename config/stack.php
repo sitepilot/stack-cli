@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'vhosts' => [],
     'services' => [
         new \App\Services\MysqlService,
         new \App\Services\MailhogService,
