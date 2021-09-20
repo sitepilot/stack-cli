@@ -211,4 +211,14 @@ class Stack
 
         File::put(stack_project_path('stack.yml'), "---" . PHP_EOL . Yaml::dump($config, 99, 2));
     }
+
+    /**
+     * Returns the current user ID.
+     *
+     * @return integer
+     */
+    public static function uid(): int
+    {
+        return exec('id -u');
+    }
 }

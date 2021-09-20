@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Stack;
 use App\Service;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
@@ -61,7 +62,7 @@ class VhostService extends Service
 
         $this->name = $name;
 
-        Arr::set($this->defaults, 'uid', getmyuid());
+        Arr::set($this->defaults, 'uid', Stack::uid());
     }
 
     public function init(): void

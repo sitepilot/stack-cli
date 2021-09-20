@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Stack;
 use App\Service;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -44,7 +45,7 @@ class LshttpdService extends Service
 
     public function __construct()
     {
-        Arr::set($this->defaults, 'uid', getmyuid());
+        Arr::set($this->defaults, 'uid', Stack::uid());
     }
 
     public function init(): void
