@@ -44,32 +44,23 @@ class BuildCommand extends Command
             return 1;
         }
 
-        $processes = [];
-
         foreach ($images as $image => $path) {
-            File::deleteDirectory(stack_config_path($path));
+            $this->task("Build $image image", function () use ($image, $path) {
+                File::deleteDirectory(stack_config_path($path));
 
-            File::copyDirectory(stack_path($path), stack_config_path($path));
+                File::copyDirectory(stack_path($path), stack_config_path($path));
 
-            foreach (File::allFiles(stack_config_path($path . DIRECTORY_SEPARATOR . 'bin')) as $file) {
-                File::chmod($file->getPathname(), 0755);
-            }
-
-            $processes[$image] = (new Process(['docker', 'build', '-t', "ghcr.io/sitepilot/$image", stack_config_path($path)]))
-                ->setTty(false)
-                ->setTimeout(900)
-                ->setTty(false);
-
-            $processes[$image]->start();
-        }
-
-        foreach ($processes as $image => $process) {
-            $this->task("Build $image ", function () use ($image, $process) {
-                while ($process->isRunning()) {
-                    // waiting for process to finish
+                foreach (File::allFiles(stack_config_path($path . DIRECTORY_SEPARATOR . 'bin')) as $file) {
+                    File::chmod($file->getPathname(), 0755);
                 }
 
-                return true;
+                $this->line("");
+
+                (new Process(['docker', 'build', '-t', "ghcr.io/sitepilot/$image", stack_config_path($path)]))
+                    ->setTty(false)
+                    ->setTimeout(900)
+                    ->setTty(Process::isTtySupported())
+                    ->mustRun();
             });
         }
     }
