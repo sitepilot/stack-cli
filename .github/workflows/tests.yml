@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build stack containers
-        uses: ./build.sh
+        run: build.sh
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
