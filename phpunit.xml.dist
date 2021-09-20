@@ -10,7 +10,6 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Feature">
-            <file>./tests/Feature/BuildCommandTest.php</file>
             <file>./tests/Feature/InitCommandTest.php</file>
             <file>./tests/Feature/EnableCommandTest.php</file>
             <file>./tests/Feature/ConfigCommandTest.php</file>

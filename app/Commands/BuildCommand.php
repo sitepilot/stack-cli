@@ -56,7 +56,7 @@ class BuildCommand extends Command
 
                 $this->line("");
 
-                $imageURL = "docker.io/sitepilot/$image";
+                $imageURL = "ghcr.io/sitepilot/$image";
 
                 (new Process(['docker', 'pull', $imageURL]))
                     ->setTimeout(900)
