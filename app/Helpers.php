@@ -10,7 +10,7 @@ if (!function_exists('stack_path')) {
 if (!function_exists('stack_project_path')) {
     function stack_project_path($path = '')
     {
-        return getcwd() . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+        return env('STACK_PROJECT_PATH', getcwd()) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
