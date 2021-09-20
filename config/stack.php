@@ -1,0 +1,12 @@
+<?php
+
+return [
+    'vhosts' => [],
+    'services' => [
+        new \App\Services\MysqlService,
+        new \App\Services\MailhogService,
+        new \App\Services\PhpMyAdminService,
+        new \App\Services\LshttpdService,
+        new \App\Services\CaddyService,
+    ]
+];

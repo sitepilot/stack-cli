@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+
+function shutdown()
+{
+    echo "Shutting down..."
+    /usr/local/lsws/bin/lswsctrl "stop"
+    pkill "tail"
+    exit 0
+}
+
+trap shutdown SIGTERM
+
+if [ $RUNTIME_USER_ID != 1000 ]; then
+    usermod -u $RUNTIME_USER_ID runtime
+    groupmod -g $RUNTIME_USER_ID runtime
+    chown -R $RUNTIME_USER_ID:$RUNTIME_USER_ID /opt/runtime
+fi
+
+if [ -n "${ADMIN_PASSWORD}" ] && [ -n "${ADMIN_USERNAME}" ]
+then
+	ENCRYPT_PASSWORD="$(/usr/local/lsws/admin/fcgi-bin/admin_php -q '/usr/local/lsws/admin/misc/htpasswd.php' "${ADMIN_PASSWORD}")"
+	echo "${ADMIN_USERNAME}:${ENCRYPT_PASSWORD}" >'/usr/local/lsws/admin/conf/htpasswd'
+fi
+
+/usr/local/lsws/bin/lswsctrl "start"
+
+tail -f '/opt/runtime/logs/server.log' & wait

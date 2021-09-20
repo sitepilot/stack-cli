@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+function shutdown()
+{
+    echo "Shutting down..."
+    pkill "lsphp"
+    exit 0
+}
+
+trap shutdown SIGTERM
+
+if [ $RUNTIME_USER_ID != 1000 ]; then
+    usermod -u $RUNTIME_USER_ID runtime
+    groupmod -g $RUNTIME_USER_ID runtime
+    chown -R $RUNTIME_USER_ID:$RUNTIME_USER_ID /opt/runtime
+fi
+
+su -l runtime -c '
+PHP_LSAPI_MAX_REQUESTS=5000 \
+PHP_LSAPI_CHILDREN=35 \
+/usr/local/lsws/lsphp74/bin/lsphp -b *:9000' & wait
