@@ -1,6 +1,6 @@
 <?php
 
-it('can initalize the stack', function () {
+it('can initialize the stack', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('init')
         ->assertExitCode(0);
