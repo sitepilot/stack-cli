@@ -14,7 +14,7 @@ class ReloadCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'reload';
+    protected $signature = 'reload {service?}';
 
     /**
      * The description of the command.
@@ -34,6 +34,12 @@ class ReloadCommand extends Command
             return 1;
         }
 
+        $serviceName = $this->argument('service');
+
+        if ($serviceName && !$service = $this->service($serviceName)) {
+            return 1;
+        }
+
         $this->task("Initialize configuration", function () {
             $this->init();
         });
@@ -41,6 +47,12 @@ class ReloadCommand extends Command
         $this->task("Update service containers", function () {
             $this->compose(['up', '-d', '--remove-orphans'])->mustRun();
         });
+
+        if ($service ?? null) {
+            $this->task("Restart {$service->name()} service", function () use ($service) {
+                $this->compose(['restart', $service->name()])->mustRun();
+            });
+        }
 
         foreach (Stack::services(true, true) as $service) {
             $cmd = $service->reloadCommand();
