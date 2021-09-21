@@ -13,7 +13,7 @@ class BuildCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'build {image=all}';
+    protected $signature = 'build {image=all} {--no-cache}';
 
     /**
      * The description of the command.
@@ -57,13 +57,18 @@ class BuildCommand extends Command
                 $this->line("");
 
                 $imageURL = "ghcr.io/sitepilot/$image";
+                $command = ['docker', 'build'];
 
-                (new Process(['docker', 'pull', $imageURL]))
-                    ->setTimeout(900)
-                    ->setTty(Process::isTtySupported())
-                    ->run();
+                if (!$this->option('no-cache')) {
+                    (new Process(['docker', 'pull', $imageURL]))
+                        ->setTimeout(900)
+                        ->setTty(Process::isTtySupported())
+                        ->run();
 
-                (new Process(['docker', 'build', '--cache-from', $imageURL, '-t', $imageURL, stack_config_path($path)]))
+                    $command = array_merge($command, ['--cache-from', $imageURL]);
+                }
+
+                (new Process(array_merge($command, ['-t', $imageURL, stack_config_path($path)])))
                     ->setTimeout(900)
                     ->setTty(Process::isTtySupported())
                     ->mustRun();
