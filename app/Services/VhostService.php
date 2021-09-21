@@ -39,6 +39,15 @@ class VhostService extends Service
         'denyFiles' => [
             'xmlrpc.php',
             'wp-trackback.php'
+        ],
+        'basicAuth' => [
+            //[
+            //  'path' => '/*',
+            //  'users' => [[
+            //    'username' => 'stack',
+            //    'password' => 'JDJhJDE0JEY2MlhpMDBCbmozd0p2UnB5R3YzNC42WjlqZ2ZuN3NuUUZoMHlraXcwcU1sRldmN2o0eXZL'
+            //   ]]
+            //]
         ]
     ];
 
@@ -57,7 +66,14 @@ class VhostService extends Service
         'smtp.host' => ['required'],
         'smtp.port' => ['required', 'numeric'],
         'smtp.tls' => ['required', 'boolean'],
-        'smtp.from' => ['required', 'email']
+        'smtp.from' => ['required', 'email'],
+        'denyFiles' => ['array'],
+        'denyFiles.*' => ['required', 'string'],
+        'basicAuth' => ['array'],
+        'basicAuth.*.path' => ['required', 'string'],
+        'basicAuth.*.users' => ['required', 'array'],
+        'basicAuth.*.users.*.username' => ['required', 'string', 'min:3'],
+        'basicAuth.*.users.*.password' => ['required', 'string', 'min:12']
     ];
 
     public function __construct(?string $name)

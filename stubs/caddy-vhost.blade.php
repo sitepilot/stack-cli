@@ -15,6 +15,19 @@ foreach($domains as $domain) {
   tls {{ $ssl['email'] }} {
     on_demand
   }
+
+@endif
+@if(count($basicAuth))
+@foreach($basicAuth as $authConfig)
+@if(count($authConfig['users']))
+  basicauth {{ $authConfig['path'] }} {
+@foreach($authConfig['users'] as $authUser)
+    {{ $authUser['username'] }} {{ $authUser['password'] }}
+@endforeach
+  }
+
+@endif
+@endforeach
 @endif
   import config
 
