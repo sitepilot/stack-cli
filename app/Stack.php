@@ -194,7 +194,7 @@ class Stack
             }
         }
 
-        File::put(stack_project_path('stack.yml'), "---" . PHP_EOL . Yaml::dump($config, 99, 2));
+        File::put(stack_project_path('stack.yml'), self::arrayToYaml($config));
     }
 
     /**
@@ -209,7 +209,7 @@ class Stack
 
         Arr::forget($config, $items);
 
-        File::put(stack_project_path('stack.yml'), "---" . PHP_EOL . Yaml::dump($config, 99, 2));
+        File::put(stack_project_path('stack.yml'), self::arrayToYaml($config));
     }
 
     /**
@@ -220,5 +220,16 @@ class Stack
     public static function uid(): int
     {
         return exec('id -u');
+    }
+
+    /**
+     * Convert an array to Yaml.
+     *
+     * @param array $array
+     * @return string
+     */
+    public static function arrayToYaml(array $array): string
+    {
+        return "---" . PHP_EOL . trim(preg_replace('/\-\n\s+/', '- ', Yaml::dump($array, 99, 2)));
     }
 }

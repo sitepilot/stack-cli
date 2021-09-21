@@ -4,7 +4,6 @@ namespace App\Commands;
 
 use App\Stack;
 use App\Command;
-use Symfony\Component\Yaml\Yaml;
 
 class ConfigCommand extends Command
 {
@@ -47,7 +46,7 @@ class ConfigCommand extends Command
                 break;
             case 'yaml':
             default:
-                $this->line('---' . PHP_EOL . trim(Yaml::dump($config, 99, 2)));
+                $this->line(Stack::arrayToYaml($config));
                 break;
         }
     }
