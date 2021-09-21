@@ -8,5 +8,6 @@ return [
         new \App\Services\RedisService,
         new \App\Services\LshttpdService,
         new \App\Services\CaddyService,
+        new \App\Services\BackupService
     ]
 ];

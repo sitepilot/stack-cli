@@ -30,6 +30,7 @@ class BuildCommand extends Command
     public function handle()
     {
         $images = array_filter([
+            'backup' => 'docker/backup',
             'lshttpd' => 'docker/lshttpd',
             'runtime:7.4' => 'docker/runtime/7.4',
             'runtime:8.0' => 'docker/runtime/8.0'

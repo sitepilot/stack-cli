@@ -1,6 +1,6 @@
 <?php
 
-it('can disable the MySQL service', function () {
+it('can disable the mysql service', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('disable mysql')
         ->assertExitCode(0);
@@ -8,7 +8,7 @@ it('can disable the MySQL service', function () {
     $this->assertConfig('mysql.enabled', false);
 });
 
-it('can disable the Redis service', function () {
+it('can disable the redis service', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('disable redis')
         ->assertExitCode(0);
@@ -16,7 +16,7 @@ it('can disable the Redis service', function () {
     $this->assertConfig('redis.enabled', false);
 });
 
-it('can disable the PhpMyAdmin service', function () {
+it('can disable the phpmyadmin service', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('disable phpmyadmin')
         ->assertExitCode(0);
@@ -26,7 +26,7 @@ it('can disable the PhpMyAdmin service', function () {
     $this->assertConfigNotHasKey('proxy.routes.phpmyadmin');
 });
 
-it('can disable the Mailhog service', function () {
+it('can disable the mailhog service', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('disable mailhog')
         ->assertExitCode(0);
@@ -34,4 +34,12 @@ it('can disable the Mailhog service', function () {
     $this->assertConfig('mailhog.enabled', false);
 
     $this->assertConfigNotHasKey('proxy.routes.mailhog');
+});
+
+it('can disable the backup service', function () {
+    /** @var Tests\TestCase $this */
+    $this->artisan('disable backup')
+        ->assertExitCode(0);
+
+    $this->assertConfig('backup.enabled', false);
 });
