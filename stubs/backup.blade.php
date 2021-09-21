@@ -16,5 +16,5 @@ services:
     volumes:
 @if(count(\App\Stack::sites(true)))
       - "{{ stack_project_path('sites') }}:/opt/stack/sites"
-      - "{{ stack_config_path('backups') }}:/opt/stack/backups"
 @endif
+      - "{{ stack_config_path('backups') }}:/opt/stack/backups"
