@@ -62,10 +62,10 @@ class SiteCreateCommand extends Command
 
         $site->init();
 
-        $this->task("Reloading stack", function () {
+        $this->task("[{$site->name()}] Reload stack", function () {
             Artisan::call('reload');
         });
 
-        $this->info("Site $name created!");
+        $this->info("[{$site->name()}] Site created!");
     }
 }
