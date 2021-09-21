@@ -18,19 +18,19 @@ it('can display the web service logs', function () {
         ->assertExitCode(0);
 });
 
-it('can display the MySQL service logs', function () {
+it('can display the mysql service logs', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('logs mysql --limit=2')
         ->assertExitCode(0);
 });
 
-it('can display the PhpMyAdmin service logs', function () {
+it('can display the phpmyadmin service logs', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('logs phpmyadmin --limit=2')
         ->assertExitCode(0);
 });
 
-it('can display the Mailhog service logs', function () {
+it('can display the mailhog service logs', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('logs mailhog --limit=2')
         ->assertExitCode(0);
