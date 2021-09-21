@@ -38,7 +38,6 @@ expires  {
   expiresByType           image/*=A604800,text/css=A604800,application/x-javascript=A604800,application/javascript=A604800,font/*=A604800,application/x-font-ttf=A604800
 }
 
-autoLoadHtaccess          1
 uploadTmpDir              /opt/runtime/tmp
 uploadTmpFilePermission   640
 
@@ -132,78 +131,27 @@ accessControl  {
   allow                   ALL
 }
 
-railsDefaults  {
-  maxConns                1
-  env                     LSAPI_MAX_IDLE=60
-  initTimeout             60
-  retryTimeout            0
-  pcKeepAliveTimeout      60
-  respBuffer              0
-  backlog                 50
-  runOnStartUp            3
-  extMaxIdleTime          300
-  priority                3
-  memSoftLimit            2047M
-  memHardLimit            2047M
-  procSoftLimit           500
-  procHardLimit           600
-}
-
-wsgiDefaults  {
-  maxConns                5
-  env                     LSAPI_MAX_IDLE=60
-  initTimeout             60
-  retryTimeout            0
-  pcKeepAliveTimeout      60
-  respBuffer              0
-  backlog                 50
-  runOnStartUp            3
-  extMaxIdleTime          300
-  priority                3
-  memSoftLimit            2047M
-  memHardLimit            2047M
-  procSoftLimit           500
-  procHardLimit           600
-}
-
-nodeDefaults  {
-  maxConns                5
-  env                     LSAPI_MAX_IDLE=60
-  initTimeout             60
-  retryTimeout            0
-  pcKeepAliveTimeout      60
-  respBuffer              0
-  backlog                 50
-  runOnStartUp            3
-  extMaxIdleTime          300
-  priority                3
-  memSoftLimit            2047M
-  memHardLimit            2047M
-  procSoftLimit           500
-  procHardLimit           600
-}
-
 module uploadprogress {
   ls_enabled              1
 }
 
 module cache {
-    internal            1
-    checkPrivateCache   1
-    checkPublicCache    1
-    maxCacheObjSize     10000000
-    maxStaleAge         200
-    qsCache             1
-    reqCookieCache      1
-    respCookieCache     1
-    ignoreReqCacheCtrl  1
-    ignoreRespCacheCtrl 0
+    internal              1
+    checkPrivateCache     1
+    checkPublicCache      1
+    maxCacheObjSize       10000000
+    maxStaleAge           200
+    qsCache               1
+    reqCookieCache        1
+    respCookieCache       1
+    ignoreReqCacheCtrl    1
+    ignoreRespCacheCtrl   0
 
     enableCache         0
     expireInSeconds     3600
     enablePrivateCache  0
     privateExpireInSeconds 3600
-    ls_enabled          1   
+    ls_enabled          1
 }
 
 listener http {

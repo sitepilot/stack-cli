@@ -38,4 +38,14 @@ virtualHost {{ $service->name() }} {
     php_admin_value mail.log "$VH_ROOTlogs/php-mail.log"
     php_admin_value error_log "$VH_ROOTlogs/php-error.log"
   }
+
+  rewrite  {
+    enable                1
+    autoLoadHtaccess      1
+@if(count($denyFiles))
+    rules                 <<<END_rules
+      RewriteRule ^/({{ implode('|', $denyFiles) }}) - [F,L,NC]
+    END_rules
+@endif
+  }
 }

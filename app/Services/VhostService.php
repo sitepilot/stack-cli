@@ -35,6 +35,10 @@ class VhostService extends Service
             'from' => '${STACK_VHOST_SMTP_FROM:-hello@stack.test}',
             'username' => '${STACK_VHOST_SMTP_USERNAME}',
             'password' => '${STACK_VHOST_SMTP_PASSWORD}'
+        ],
+        'denyFiles' => [
+            'xmlrpc.php',
+            'wp-trackback.php'
         ]
     ];
 
