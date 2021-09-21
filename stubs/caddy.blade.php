@@ -11,7 +11,7 @@ services:
       - {{ $ports['https'] }}:443
     volumes:
       - {{ $service->name() }}:/data
-      - {{ stack_config_path('config/caddy/sites') }}:/etc/caddy/sites:ro
+      - {{ stack_config_path('config/caddy/vhosts') }}:/etc/caddy/vhosts:ro
       - {{ stack_config_path('config/caddy/caddy.conf') }}:/etc/caddy/Caddyfile:ro
 
 volumes:

@@ -26,6 +26,6 @@ services:
 @if(count(\App\Stack::sites(true)))
       - "{{ stack_project_path('sites') }}:/opt/stack/sites"
 @endif
-      - "{{ stack_config_path('config/lshttpd/sites') }}:/usr/local/lsws/conf/sites:ro"
+      - "{{ stack_config_path('config/lshttpd/vhosts') }}:/usr/local/lsws/conf/vhosts:ro"
       - "{{ stack_config_path('config/lshttpd/lshttpd.conf') }}:/usr/local/lsws/conf/httpd_config.conf:ro"
       - "{{ stack_config_path('config/lshttpd/admin.conf') }}:/usr/local/lsws/admin/conf/admin_config.conf:ro"

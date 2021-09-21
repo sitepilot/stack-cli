@@ -94,10 +94,10 @@ class SiteService extends Service
 
         $this->publishViews([
             'site' => $this->composeFile(),
-            'caddy-site' => stack_config_path("config/caddy/sites/{$this->name()}.conf"),
-            'lshttpd-site' => stack_config_path("config/lshttpd/sites/{$this->name()}.conf"),
-            'php-site' => stack_project_path("sites/{$this->name()}/config/php.ini"),
-            'msmtp-site' => stack_project_path("sites/{$this->name()}/config/msmtp.conf")
+            'caddy-vhost' => stack_config_path("config/caddy/vhosts/{$this->name()}.conf"),
+            'lshttpd-vhost' => stack_config_path("config/lshttpd/vhosts/{$this->name()}.conf"),
+            'php-site' => stack_config_path("config/sites/{$this->name()}/php.ini"),
+            'msmtp-site' => stack_config_path("config/sites/{$this->name()}/msmtp.conf")
         ]);
 
         $this->publishDirs([
@@ -111,13 +111,17 @@ class SiteService extends Service
         parent::disable();
 
         File::delete([
-            stack_config_path("config/caddy/sites/{$this->name()}.conf"),
-            stack_config_path("config/lshttpd/sites/{$this->name()}.conf")
+            stack_config_path("config/caddy/vhosts/{$this->name()}.conf"),
+            stack_config_path("config/lshttpd/vhosts/{$this->name()}.conf")
         ]);
+
+        File::deleteDirectory(
+            stack_config_path("config/sites/{$this->name()}")
+        );
     }
 
     public function composeFile(): string
     {
-        return stack_project_path("sites/{$this->name()}/config/service.yml");
+        return stack_config_path("config/sites/{$this->name()}/{$this->name()}.yml");
     }
 }

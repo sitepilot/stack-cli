@@ -55,7 +55,7 @@ class LshttpdService extends Service
         ]);
 
         $this->publishDirs([
-            stack_config_path('config/lshttpd/sites')
+            stack_config_path('config/lshttpd/vhosts')
         ]);
 
         $this->publishViews([
@@ -63,5 +63,10 @@ class LshttpdService extends Service
             'lshttpd-conf' => stack_config_path('config/lshttpd/lshttpd.conf'),
             'lshttpd-admin' => stack_config_path('config/lshttpd/admin.conf'),
         ]);
+    }
+
+    public function composeFile(): string
+    {
+        return stack_config_path("config/lshttpd/lshttpd.yml");
     }
 }

@@ -42,12 +42,17 @@ class CaddyService extends Service
         ]);
 
         $this->publishDirs([
-            stack_config_path('config/caddy/sites')
+            stack_config_path('config/caddy/vhosts')
         ]);
 
         $this->publishViews([
             'caddy' => $this->composeFile(),
             'caddy-conf' => stack_config_path('config/caddy/caddy.conf'),
         ]);
+    }
+
+    public function composeFile(): string
+    {
+        return stack_config_path("config/caddy/caddy.yml");
     }
 }
