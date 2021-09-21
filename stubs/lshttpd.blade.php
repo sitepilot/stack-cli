@@ -4,6 +4,8 @@ services:
   {{ $service->name() }}:
     image: {{ $image }}:{{ $tag }}
     restart: always
+    hostname: {{ $service->name() }}
+    working_dir: /usr/local/lsws/conf
     environment:
       RUNTIME_USER_ID: {{ $uid }}
       ADMIN_USERNAME: "{{ $username }}"

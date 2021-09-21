@@ -4,6 +4,7 @@ services:
   {{ $service->name() }}:
     image: {{ $image }}:{{ $tag }}
     restart: always
+    hostname: {{ $service->name() }}
     environment:
       MYSQL_DATABASE: {{ $database }}
       MYSQL_USER: {{ $username }}

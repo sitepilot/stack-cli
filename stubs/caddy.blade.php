@@ -4,6 +4,8 @@ services:
   {{ $service->name() }}:
     image: {{ $image }}:{{ $tag }}
     restart: always
+    hostname: {{ $service->name() }}
+    working_dir: /etc/caddy
     ports:
       - {{ $ports['http'] }}:80
       - {{ $ports['https'] }}:443
