@@ -20,7 +20,7 @@ class ConfigCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Dispaly service config';
+    protected $description = 'Display service config';
 
     /**
      * Execute the console command.

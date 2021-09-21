@@ -20,7 +20,7 @@ class BuildCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Build stack container images';
+    protected $description = 'Build service container images';
 
     /**
      * Execute the console command.

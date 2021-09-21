@@ -19,7 +19,7 @@ class InitCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Initialize configuration';
+    protected $description = 'Initialize stack configuration';
 
     /**
      * Execute the console command.
