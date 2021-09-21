@@ -12,6 +12,14 @@ it('can enable the MySQL service', function () {
     $this->assertEnv('STACK_MYSQL_ROOT_PASSWORD');
 });
 
+it('can enable the Redis service', function () {
+    /** @var Tests\TestCase $this */
+    $this->artisan('enable redis')
+        ->assertExitCode(0);
+
+    $this->assertConfig('redis.enabled', true);
+});
+
 it('can enable the PhpMyAdmin service', function () {
     /** @var Tests\TestCase $this */
     $this->artisan('enable phpmyadmin')
