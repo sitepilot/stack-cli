@@ -6,8 +6,8 @@ it('can reload stack services', function () {
         ->assertExitCode(0);
 });
 
-it('can reload a vhost service', function () {
+it('can reload a site service', function () {
     /** @var Tests\TestCase $this */
-    $this->artisan('reload test-vhost')
+    $this->artisan('reload test-site')
         ->assertExitCode(0);
 });

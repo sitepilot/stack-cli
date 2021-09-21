@@ -159,4 +159,4 @@ listener http {
     secure              0
 }
 
-include /usr/local/lsws/conf/vhosts/*.conf
+include /usr/local/lsws/conf/sites/*.conf

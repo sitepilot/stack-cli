@@ -4,8 +4,7 @@ namespace App\Commands;
 
 use App\Stack;
 use App\Command;
-use App\Services\VhostService;
-use Illuminate\Support\Facades\Artisan;
+use App\Services\SiteService;
 
 class ReloadCommand extends Command
 {
@@ -58,7 +57,7 @@ class ReloadCommand extends Command
             $cmd = $service->reloadCommand();
 
             if ($cmd) {
-                $this->task("Reload {$service->name()} " . ($service instanceof VhostService ? 'vhost' : 'service'), function () use ($service, $cmd) {
+                $this->task("Reload {$service->name()} " . ($service instanceof SiteService ? 'site' : 'service'), function () use ($service, $cmd) {
                     $this->compose(array_merge(['exec', '-T', $service->name()], $cmd))->mustRun();
                 });
             }

@@ -5,6 +5,6 @@
 /.stack
 .phpunit.result.cache
 stack.yml
-vhosts
+sites
 builds
 .env
