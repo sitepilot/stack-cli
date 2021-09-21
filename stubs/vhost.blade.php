@@ -4,9 +4,11 @@ services:
   {{ $service->name() }}:
     image: {{ $image }}:{{ $tag }}
     restart: always
+    hostname: {{ $service->name() }}
     working_dir: /opt/stack/vhosts/{{ $service->name() }}/public
     environment:
       RUNTIME_USER_ID: {{ $uid }}
+      RUNTIME_USER_HOME: /opt/stack/vhosts/{{ $service->name() }}
     volumes:
       - "{{ stack_project_path("vhosts/" . $service->name()) }}:/opt/stack/vhosts/{{ $service->name() }}"
       - "{{ stack_project_path("vhosts/" . $service->name() . '/config/msmtp.conf') }}:/etc/msmtprc:ro"

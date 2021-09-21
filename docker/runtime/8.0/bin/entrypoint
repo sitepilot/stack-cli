@@ -17,6 +17,10 @@ if [ $RUNTIME_USER_ID != 1000 ]; then
     chown -R $RUNTIME_USER_ID:$RUNTIME_USER_ID /opt/runtime
 fi
 
+if [ -n "$RUNTIME_USER_HOME" ]; then
+    usermod -d $RUNTIME_USER_HOME runtime
+fi
+
 su -l runtime -c '
 PHP_LSAPI_MAX_REQUESTS=5000 \
 PHP_LSAPI_CHILDREN=35 \
