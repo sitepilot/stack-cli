@@ -37,7 +37,7 @@ class EditCommand extends Command
             $file = stack_project_path('stack.yml');
         }
 
-        (new Process(['nano', $file]))
+        (new Process(['vi', $file]))
             ->setTimeout(0)->setTty(Process::isTtySupported())->mustRun();
 
         if ($this->validate()) {
