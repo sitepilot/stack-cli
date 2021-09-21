@@ -21,7 +21,9 @@ RUN install-packages \
     curl \
     gnupg \
     msmtp \
-    ca-certificates
+    ca-certificates \
+    nano \
+    less
 
 # ----- LSPHP ----- #
 
