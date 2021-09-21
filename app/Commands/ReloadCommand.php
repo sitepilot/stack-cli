@@ -36,7 +36,7 @@ class ReloadCommand extends Command
 
         $serviceName = $this->argument('service');
 
-        if ($serviceName && !$service = $this->service($serviceName)) {
+        if ($serviceName && !$service = $this->service($serviceName, ['enabled', 'running'])) {
             return 1;
         }
 
