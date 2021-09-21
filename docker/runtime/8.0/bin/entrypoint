@@ -19,6 +19,9 @@ fi
 
 if [ -n "$RUNTIME_USER_HOME" ]; then
     usermod -d $RUNTIME_USER_HOME runtime
+    cp /root/.bashrc $RUNTIME_USER_HOME/.bashrc
+    chown runtime:runtime $RUNTIME_USER_HOME/.bashrc
+    chmod +x $RUNTIME_USER_HOME/.bashrc
 fi
 
 su -l runtime -c '

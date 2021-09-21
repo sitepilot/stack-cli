@@ -1,6 +1,6 @@
 # {{ $stack_managed }}
 virtualHost {{ $service->name() }} {
-  vhRoot                      /opt/stack/vhosts/$VH_NAME
+  vhRoot                      /opt/stack/sites/$VH_NAME
   docRoot                     $VH_ROOTpublic
   listeners                   http
 

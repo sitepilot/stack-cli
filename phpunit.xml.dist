@@ -15,7 +15,7 @@
             <file>./tests/Feature/ConfigCommandTest.php</file>
             <file>./tests/Feature/UpCommandTest.php</file>
             <file>./tests/Feature/LogsCommandTest.php</file>
-            <file>./tests/Feature/VhostCommandTest.php</file>
+            <file>./tests/Feature/SiteCommandTest.php</file>
             <file>./tests/Feature/ReloadCommandTest.php</file>
             <file>./tests/Feature/DatabaseCommandTest.php</file>
             <file>./tests/Feature/ServicesCommandTest.php</file>

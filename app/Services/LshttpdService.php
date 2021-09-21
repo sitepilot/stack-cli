@@ -55,7 +55,7 @@ class LshttpdService extends Service
         ]);
 
         $this->publishDirs([
-            stack_config_path('config/lshttpd/vhosts')
+            stack_config_path('config/lshttpd/sites')
         ]);
 
         $this->publishViews([

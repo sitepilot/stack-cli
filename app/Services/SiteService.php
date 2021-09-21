@@ -7,7 +7,7 @@ use App\Service;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 
-class VhostService extends Service
+class SiteService extends Service
 {
     protected string $user = 'runtime';
 
@@ -19,22 +19,22 @@ class VhostService extends Service
         'uid' => null,
         'domains' => [],
         'ssl' => [
-            'email' => '${STACK_VHOST_SSL_EMAIL}'
+            'email' => '${STACK_SITE_SSL_EMAIL}'
         ],
         'php' => [
-            'timezone' => '${STACK_VHOST_PHP_TIMEZONE:-Europe/Amsterdam}',
-            'uploadSize' => '${STACK_VHOST_PHP_UPLOAD_SIZE:-32M}',
-            'memoryLimit' => '${STACK_VHOST_PHP_MEMORY_LIMIT:-256M}',
-            'maxInputVars' => '${STACK_VHOST_PHP_MAX_INPUT_SIZE:-3000}',
-            'opcacheMemory' => '${STACK_VHOST_PHP_OPCACHE_MEMORY:-128}'
+            'timezone' => '${STACK_SITE_PHP_TIMEZONE:-Europe/Amsterdam}',
+            'uploadSize' => '${STACK_SITE_PHP_UPLOAD_SIZE:-32M}',
+            'memoryLimit' => '${STACK_SITE_PHP_MEMORY_LIMIT:-256M}',
+            'maxInputVars' => '${STACK_SITE_PHP_MAX_INPUT_SIZE:-3000}',
+            'opcacheMemory' => '${STACK_SITE_PHP_OPCACHE_MEMORY:-128}'
         ],
         'smtp' => [
-            'host' => '${STACK_VHOST_SMTP_HOST:-mailhog}',
-            'port' => '${STACK_VHOST_SMTP_PORT:-1025}',
-            'tls' => '${STACK_VHOST_SMTP_TLS:-false}',
-            'from' => '${STACK_VHOST_SMTP_FROM:-hello@stack.test}',
-            'username' => '${STACK_VHOST_SMTP_USERNAME}',
-            'password' => '${STACK_VHOST_SMTP_PASSWORD}'
+            'host' => '${STACK_SITE_SMTP_HOST:-mailhog}',
+            'port' => '${STACK_SITE_SMTP_PORT:-1025}',
+            'tls' => '${STACK_SITE_SMTP_TLS:-false}',
+            'from' => '${STACK_SITE_SMTP_FROM:-hello@stack.test}',
+            'username' => '${STACK_SITE_SMTP_USERNAME}',
+            'password' => '${STACK_SITE_SMTP_PASSWORD}'
         ],
         'denyFiles' => [
             'xmlrpc.php',
@@ -78,7 +78,7 @@ class VhostService extends Service
 
     public function __construct(?string $name)
     {
-        $this->namespace = 'vhosts';
+        $this->namespace = 'sites';
 
         $this->name = $name;
 
@@ -93,16 +93,16 @@ class VhostService extends Service
         ]));
 
         $this->publishViews([
-            'vhost' => $this->composeFile(),
-            'caddy-vhost' => stack_config_path("config/caddy/vhosts/{$this->name()}.conf"),
-            'lshttpd-vhost' => stack_config_path("config/lshttpd/vhosts/{$this->name()}.conf"),
-            'php-vhost' => stack_project_path("vhosts/{$this->name()}/config/php.ini"),
-            'msmtp-vhost' => stack_project_path("vhosts/{$this->name()}/config/msmtp.conf")
+            'site' => $this->composeFile(),
+            'caddy-site' => stack_config_path("config/caddy/sites/{$this->name()}.conf"),
+            'lshttpd-site' => stack_config_path("config/lshttpd/sites/{$this->name()}.conf"),
+            'php-site' => stack_project_path("sites/{$this->name()}/config/php.ini"),
+            'msmtp-site' => stack_project_path("sites/{$this->name()}/config/msmtp.conf")
         ]);
 
         $this->publishDirs([
-            stack_project_path("vhosts/{$this->name()}/logs"),
-            stack_project_path("vhosts/{$this->name()}/public")
+            stack_project_path("sites/{$this->name()}/logs"),
+            stack_project_path("sites/{$this->name()}/public")
         ]);
     }
 
@@ -111,13 +111,13 @@ class VhostService extends Service
         parent::disable();
 
         File::delete([
-            stack_config_path("config/caddy/vhosts/{$this->name()}.conf"),
-            stack_config_path("config/lshttpd/vhosts/{$this->name()}.conf")
+            stack_config_path("config/caddy/sites/{$this->name()}.conf"),
+            stack_config_path("config/lshttpd/sites/{$this->name()}.conf")
         ]);
     }
 
     public function composeFile(): string
     {
-        return stack_project_path("vhosts/{$this->name()}/config/service.yml");
+        return stack_project_path("sites/{$this->name()}/config/service.yml");
     }
 }

@@ -1,16 +1,16 @@
 # {{ $stack_managed }}
 @php
-$vhostDomains = [];
+$siteDomains = [];
 $port = $ssl['email'] ? ':443' : ':80';
 foreach($domains as $domain) {
-  $vhostDomain = str_replace('*', '', $domain . $port);
-  $vhostDomains[] = $vhostDomain;
+  $siteDomain = str_replace('*', '', $domain . $port);
+  $siteDomains[] = $siteDomain;
   if($domain != '*') {
-    $vhostDomains[] = 'www.' . $vhostDomain;
+    $siteDomains[] = 'www.' . $siteDomain;
   }
 }
 @endphp
-{{ implode(' ', $vhostDomains) }} {
+{{ implode(' ', $siteDomains) }} {
 @if($ssl['email'])
   tls {{ $ssl['email'] }} {
     on_demand

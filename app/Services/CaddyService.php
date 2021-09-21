@@ -42,7 +42,7 @@ class CaddyService extends Service
         ]);
 
         $this->publishDirs([
-            stack_config_path('config/caddy/vhosts')
+            stack_config_path('config/caddy/sites')
         ]);
 
         $this->publishViews([

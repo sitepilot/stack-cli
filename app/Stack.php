@@ -4,7 +4,7 @@ namespace App;
 
 use Dotenv\Dotenv;
 use Illuminate\Support\Arr;
-use App\Services\VhostService;
+use App\Services\SiteService;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\File;
 
@@ -86,7 +86,7 @@ class Stack
      * @param boolean $enabled
      * @return Service[]
      */
-    public static function services($enabled = false, $vhosts = false): array
+    public static function services($enabled = false, $sites = false): array
     {
         $services = config('stack.services');
 
@@ -96,8 +96,8 @@ class Stack
             });
         }
 
-        if ($vhosts) {
-            $services = array_merge($services, self::vhosts($enabled));
+        if ($sites) {
+            $services = array_merge($services, self::sites($enabled));
         }
 
         return $services;
@@ -109,9 +109,9 @@ class Stack
      * @param string $service
      * @return Service|null
      */
-    public static function service(?string $name, $enabled = false, $vhosts = false): ?Service
+    public static function service(?string $name, $enabled = false, $sites = false): ?Service
     {
-        foreach (self::services($enabled, $vhosts) as $service) {
+        foreach (self::services($enabled, $sites) as $service) {
             if ($name == $service->name()) {
                 return $service;
             }
@@ -121,26 +121,26 @@ class Stack
     }
 
     /**
-     * Get all registered vhosts.
+     * Get all registered sites.
      *
      * @param boolean $enabled
-     * @return VhostService[]
+     * @return SiteService[]
      */
-    public static function vhosts($enabled = false): array
+    public static function sites($enabled = false): array
     {
-        $vhosts = array();
+        $sites = array();
 
-        foreach (self::config()['vhosts'] ?? [] as $name => $config) {
-            $vhosts[] = new VhostService($name);
+        foreach (self::config()['sites'] ?? [] as $name => $config) {
+            $sites[] = new SiteService($name);
         }
 
         if ($enabled) {
-            $vhosts = array_filter($vhosts, function ($service) {
+            $sites = array_filter($sites, function ($service) {
                 return $service->enabled();
             });
         }
 
-        return $vhosts;
+        return $sites;
     }
 
     /**

@@ -36,7 +36,7 @@ RUN usermod -l runtime -u ${RUNTIME_USER_ID} -d /opt/runtime/home www-data \
 
 RUN mkdir --parents \
     "/opt/runtime/logs" \
-    "/opt/runtime/vhosts" \
+    "/opt/runtime/sites" \
     "/opt/runtime/tmp/gzcache" \
     "/opt/runtime/tmp/stats" \
     "/opt/runtime/tmp/swap" \

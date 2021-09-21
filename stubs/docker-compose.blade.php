@@ -10,7 +10,7 @@ services:
       - {{ $ports['https'] }}:443
     volumes:
       - proxy:/data
-      - ./config/caddy/vhosts:/etc/caddy/vhosts:ro
+      - ./config/caddy/sites:/etc/caddy/sites:ro
       - ./config/caddy/caddy.conf:/etc/caddy/Caddyfile:ro
 
   svc-web:
@@ -24,8 +24,8 @@ services:
       - {{ $ports['lshttpd'] }}:7080
 @endif
     volumes:
-      - "{{ stack_project_path('vhosts') }}:/opt/stack/vhosts"
-      - "./config/lshttpd/vhosts:/usr/local/lsws/conf/vhosts:ro"
+      - "{{ stack_project_path('sites') }}:/opt/stack/sites"
+      - "./config/lshttpd/sites:/usr/local/lsws/conf/sites:ro"
       - "./config/lshttpd/lshttpd.conf:/usr/local/lsws/conf/httpd_config.conf:ro"
       - "./config/lshttpd/admin.conf:/usr/local/lsws/admin/conf/admin_config.conf:ro"
 
@@ -44,15 +44,15 @@ services:
       UPLOAD_LIMIT: "{{ $phpmyadmin['uploadLimit'] }}"
 
 @endif
-@foreach($vhosts as $name => $vhost)
+@foreach($sites as $name => $site)
   {{ $name }}:
-    image: ghcr.io/sitepilot/runtime:{{ $vhost['runtime'] }}
-    working_dir: /opt/stack/vhosts/{{ $name }}/public
+    image: ghcr.io/sitepilot/runtime:{{ $site['runtime'] }}
+    working_dir: /opt/stack/sites/{{ $name }}/public
     environment:
       RUNTIME_USER_ID: {{ $uid }}
     volumes:
       - "./config/msmtp.conf:/etc/msmtprc:ro"
-      - "{{ stack_project_path("vhosts/$name") }}:/opt/stack/vhosts/{{ $name }}"
+      - "{{ stack_project_path("sites/$name") }}:/opt/stack/sites/{{ $name }}"
       - "./config/php.ini:/usr/local/lsws/lsphp80/etc/php/8.0/mods-available/10-stack.ini:ro"
 
 @endforeach

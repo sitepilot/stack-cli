@@ -12,4 +12,4 @@
 @endforeach
 }
 
-import "/etc/caddy/vhosts/*.conf"
+import "/etc/caddy/sites/*.conf"

@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Services\VhostService;
+use App\Services\SiteService;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Process\Process;
 use LaravelZero\Framework\Commands\Command as BaseCommand;
@@ -60,7 +60,7 @@ class Command extends BaseCommand
 
         foreach (Stack::services(true, true) as $service) {
             foreach ($service->validator()->errors()->all() as $error) {
-                $errors[] = '[' . ($service instanceof VhostService ? 'vhosts.' : '') . $service->name()  . '] ' . $error;
+                $errors[] = '[' . ($service instanceof SiteService ? 'sites.' : '') . $service->name()  . '] ' . $error;
             }
         }
 
