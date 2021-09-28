@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Commands;
+namespace  App\Commands;
 
 use App\Command;
-use App\Services\SiteService;
-use Illuminate\Support\Facades\Artisan;
+use App\Services\Site\SiteService;
 
 class SiteCreateCommand extends Command
 {
@@ -32,10 +31,6 @@ class SiteCreateCommand extends Command
      */
     public function handle()
     {
-        if (!$this->validate()) {
-            return 1;
-        }
-
         $name = $this->argument('name');
 
         $domains = $this->option('domains') ?: $this->ask("Domains (comma separated)", "$name.test");
@@ -45,27 +40,17 @@ class SiteCreateCommand extends Command
             '8.0' => 'PHP 8.0'
         ], '8.0');
 
-        $site = (new SiteService((string) $name))->setConfig([
+        $site = new SiteService($name, [
+            'tag' => $tag,
             'domains' => explode(",", $domains),
-            'tag' => $tag
         ]);
-
-        if ($site->validator()->fails()) {
-            $this->error('Site validation failed:');
-
-            array_map(function ($error) {
-                $this->error($error);
-            }, $site->validator()->errors()->all());
-
-            return 1;
-        }
 
         $site->init();
 
-        $this->task("[{$site->name()}] Reload stack", function () {
-            Artisan::call('reload');
-        });
-
-        $this->info("[{$site->name()}] Site created!");
+        $this->info("----------------");
+        $this->info("Name: $name");
+        $this->info("Tag: $tag");
+        $this->info("Domains: $domains");
+        $this->info("----------------\n");
     }
 }

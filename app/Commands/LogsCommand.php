@@ -2,9 +2,7 @@
 
 namespace App\Commands;
 
-use App\Stack;
 use App\Command;
-use Symfony\Component\Process\Process;
 
 class LogsCommand extends Command
 {
@@ -31,28 +29,17 @@ class LogsCommand extends Command
      */
     public function handle()
     {
-        $name = $this->argument('service');
-
-        if ($name && !$service = $this->service($name, ['enabled', 'running'])) {
-            return 1;
+        if ($service = $this->argument('service')) {
+            $this->line($this->services->get($service)->logs(
+                $this->option('limit'),
+                $this->option('follow')
+            ));
+        } else {
+            $this->line($this->compose->logs(
+                null,
+                $this->option('limit'),
+                $this->option('follow')
+            ));
         }
-
-        $cmd = ['logs', '--tail', $this->option('limit')];
-
-        if ($this->option('follow')) {
-            array_push($cmd, '--follow');
-        }
-
-        if ($service ?? null) {
-            array_push($cmd, $service->name());
-        }
-
-        $process = $this->compose($cmd)
-            ->setTimeout(0)
-            ->setTty(
-                $this->option('follow') && Process::isTtySupported()
-            )->mustRun();
-
-        $this->line($process->getOutput());
     }
 }

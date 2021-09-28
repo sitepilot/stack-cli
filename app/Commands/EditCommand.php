@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use Exception;
 use App\Command;
 use Symfony\Component\Process\Process;
 
@@ -29,25 +30,23 @@ class EditCommand extends Command
      */
     public function handle()
     {
-        $this->init();
-
         if ($this->option('environment')) {
-            $file = stack_project_path('.env');
+            $file = $this->config->envFile();
         } else {
-            $file = stack_project_path('stack.yml');
+            $file = $this->config->stackFile();
         }
 
-        (new Process(['vi', $file]))
-            ->setTimeout(0)->setTty(Process::isTtySupported())->mustRun();
-
-        if ($this->validate()) {
-            $this->task("Updating stack configuration", function () {
-                $this->init();
-            });
-
-            return 0;
+        try {
+            (new Process(['vi', $file]))
+                ->setTty(Process::isTtySupported())
+                ->setTimeout(0)
+                ->mustRun();
+        } catch (Exception $e) {
+            abort(1, $e->getMessage());
         }
 
-        return 1;
+        $this->task("Validate stack configuration", function () {
+            $this->services->validate();
+        });
     }
 }

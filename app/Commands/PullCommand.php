@@ -27,20 +27,14 @@ class PullCommand extends Command
      */
     public function handle()
     {
-        $serviceName = $this->argument('service');
-
-        if ($serviceName && !$service = $this->service($serviceName, ['config', 'enabled'])) {
-            return 1;
+        if ($service = $this->argument('service')) {
+            $this->task("Pull {$service} image", function () use ($service) {
+                $this->services->get($service)->pull();
+            });
+        } else {
+            $this->task("Pull container images", function () {
+                $this->compose->pull();
+            });
         }
-
-        $command = ['pull'];
-
-        if ($service ?? null) {
-            array_push($command, $service->name());
-        }
-
-        $this->task("Pull container images", function () use ($command) {
-            $this->compose($command)->mustRun();
-        });
     }
 }

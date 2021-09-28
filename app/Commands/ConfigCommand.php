@@ -2,7 +2,6 @@
 
 namespace App\Commands;
 
-use App\Stack;
 use App\Command;
 
 class ConfigCommand extends Command
@@ -12,7 +11,7 @@ class ConfigCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'config {service?} {--format=yaml} {--debug}';
+    protected $signature = 'config {service?} {--format=yaml}';
 
     /**
      * The description of the command.
@@ -28,25 +27,25 @@ class ConfigCommand extends Command
      */
     public function handle()
     {
-        $name = $this->argument('service');
-
-        if ($name && !$service = $this->service($name)) {
-            return 1;
-        }
-
-        if ($service ?? null) {
-            $config = $service->config(!$this->option('debug'));
+        if ($service = $this->argument('service')) {
+            $config = $this->services->get(
+                $service
+            )->config();
         } else {
-            $config = Stack::config(!$this->option('debug'));
+            $config = $this->config->all();
         }
 
         switch ($this->option('format')) {
             case 'json':
-                $this->line(json_encode($config));
+                $this->line(
+                    $this->config->toJson($config)
+                );
                 break;
             case 'yaml':
             default:
-                $this->line(Stack::arrayToYaml($config));
+                $this->line(
+                    $this->config->toYaml($config)
+                );
                 break;
         }
     }
