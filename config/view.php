@@ -1,5 +1,7 @@
 <?php
 
+use App\Repositories\ConfigRepository;
+
 return [
 
     /*
@@ -14,7 +16,7 @@ return [
     */
 
     'paths' => [
-        stack_path('stubs')
+        base_path('stubs')
     ],
 
     /*

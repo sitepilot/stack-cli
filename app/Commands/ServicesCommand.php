@@ -27,10 +27,6 @@ class ServicesCommand extends Command
      */
     public function handle()
     {
-        $process = $this->compose(['ps', '-a']);
-
-        $process->mustRun();
-
-        $this->line($process->getOutput());
+        $this->line($this->compose->list());
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Commands;
 
-use App\Stack;
 use App\Command;
-use App\Services\SiteService;
 
 class ReloadCommand extends Command
 {
@@ -29,36 +27,25 @@ class ReloadCommand extends Command
      */
     public function handle()
     {
-        if (!$this->validate()) {
-            return 1;
-        }
-
-        $serviceName = $this->argument('service');
-
-        if ($serviceName && !$service = $this->service($serviceName, ['enabled', 'running'])) {
-            return 1;
-        }
-
-        $this->task("Initialize configuration", function () {
-            $this->init();
-        });
-
-        $this->task("Update service containers", function () {
-            $this->compose(['up', '-d', '--remove-orphans'])->mustRun();
-        });
-
-        if ($service ?? null) {
-            $this->task("Restart {$service->name()} service", function () use ($service) {
-                $this->compose(['restart', $service->name()])->mustRun();
+        if ($service = $this->argument('service')) {
+            $this->task("Reload {$service} service", function () use ($service) {
+                $this->services->get($service)->reload();
             });
-        }
+        } else {
+            $this->task("Initialize configuration", function() {
+                $this->services->init();
+            });
 
-        foreach (Stack::services(true, true) as $service) {
-            $cmd = $service->reloadCommand();
+            $this->task("Update service containers", function () {
+                $this->compose->up();
+            });
 
-            if ($cmd) {
-                $this->task("Reload {$service->name()} " . ($service instanceof SiteService ? 'site' : 'service'), function () use ($service, $cmd) {
-                    $this->compose(array_merge(['exec', '-T', $service->name()], $cmd))->mustRun();
+            foreach ($this->services->all([
+                'enabled' => true,
+                'commands.reload' => '*'
+            ]) as $service) {
+                $this->task("Reload {$service->name()} service", function () use ($service) {
+                    $service->reload();
                 });
             }
         }

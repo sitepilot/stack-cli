@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => 'Stack',
+    'name' => 'Stack' . (env('STACK_ORGANIZATION', null) ? ' · ' . env('STACK_ORGANIZATION') : ''),
 
     /*
     |--------------------------------------------------------------------------
