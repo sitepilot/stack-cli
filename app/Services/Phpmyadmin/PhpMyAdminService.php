@@ -14,7 +14,8 @@ class PhpMyAdminService extends Service
         'enabled' => false,
         'image' => 'phpmyadmin',
         'tag' => '5.1',
-        'uploadLimit' => '2G'
+        'uploadLimit' => '2G',
+        'path' => '/.stack/phpmyadmin'
     ];
 
     protected array $rules = [
@@ -36,7 +37,7 @@ class PhpMyAdminService extends Service
 
         $this->caddy->setConfig([
             'routes.phpmyadmin' => [
-                'path' => '/svc/phpmyadmin',
+                'path' => $this->get('path'),
                 'url' => "http://{$this->name()}:80"
             ]
         ]);
@@ -55,7 +56,7 @@ class PhpMyAdminService extends Service
     {
         return [
             'PMA_HOST' => "mysql",
-            'PMA_ABSOLUTE_URI' => "/svc/phpmyadmin",
+            'PMA_ABSOLUTE_URI' => $this->get('path'),
             'UPLOAD_LIMIT' => $this->get('uploadLimit')
         ];
     }

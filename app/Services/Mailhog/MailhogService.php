@@ -13,7 +13,8 @@ class MailhogService extends Service
         'name' => 'mailhog',
         'enabled' => false,
         'image' => 'mailhog/mailhog',
-        'tag' => 'latest'
+        'tag' => 'latest',
+        'path' => '/.stack/mailhog'
     ];
 
     public function __construct(array $config = [])
@@ -31,7 +32,7 @@ class MailhogService extends Service
 
         $this->caddy->setConfig([
             'routes.mailhog' => [
-                'path' => '/svc/mailhog',
+                'path' => $this->get('path'),
                 'url' => "http://{$this->name()}:8025"
             ]
         ]);
