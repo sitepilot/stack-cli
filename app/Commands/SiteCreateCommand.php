@@ -45,7 +45,7 @@ class SiteCreateCommand extends Command
             'domains' => explode(",", $domains),
         ]);
 
-        $site->init();
+        $site->validate(['config'])->init();
 
         $this->info("----------------");
         $this->info("Name: $name");

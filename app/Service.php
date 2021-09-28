@@ -112,8 +112,6 @@ abstract class Service
      */
     public function init(): void
     {
-        $this->validate(['config']);
-
         $this->setConfig(
             $this->publishConfig
         );
