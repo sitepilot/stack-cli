@@ -1,7 +1,6 @@
 <?php
 
 use App\Services\Backup\BackupService;
-use App\Services\Mysql\MysqlService;
 
 it('can enable the mysql service', function () {
     /** @var Tests\TestCase $this */
