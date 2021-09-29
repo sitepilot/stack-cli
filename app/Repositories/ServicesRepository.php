@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Service;
 use App\Services\Site\SiteService;
-use Illuminate\Support\Facades\File;
 
 class ServicesRepository
 {
@@ -87,24 +86,22 @@ class ServicesRepository
      * @param array $rules
      * @return self
      */
-    public function validate(): self
+    public function validate(array $rules = ['file', 'config']): self
     {
-        if (!File::exists($this->config->stackFile()) || !File::exists($this->config->envFile())) {
-            abort(1, 'Stack not initalized, run `stack init` to initialize the stack first.');
-        }
+        if (in_array('config', $rules)) {
+            $validationErrors = [];
 
-        $validationErrors = ["Stack configuration validation failed, please check your stack.yml file."];
-
-        foreach ($this->all() as $service) {
-            if ($service->enabled()) {
-                foreach ($service->validator()->errors()->all() as $error) {
-                    $validationErrors[] = '[' . ($service instanceof SiteService ? 'sites.' : '') . $service->name()  . '] ' . $error;
+            foreach ($this->all() as $service) {
+                if ($service->enabled()) {
+                    foreach ($service->validator()->errors()->all() as $error) {
+                        $validationErrors[] = '[' . ($service instanceof SiteService ? 'sites.' : '') . $service->name()  . '] ' . $error;
+                    }
                 }
             }
-        }
 
-        if (count($validationErrors) > 1) {
-            abort(1, implode(PHP_EOL, $validationErrors));
+            if (count($validationErrors)) {
+                abort(1, "Stack configuration validation failed, please check your stack.yml file." . PHP_EOL . implode(PHP_EOL, $validationErrors));
+            }
         }
 
         return $this;
@@ -123,7 +120,7 @@ class ServicesRepository
             if ($service->enabled()) {
                 $service->init();
             } else {
-               $service->disable();
+                $service->disable();
             }
         }
     }
