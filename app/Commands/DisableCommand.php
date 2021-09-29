@@ -2,7 +2,6 @@
 
 namespace App\Commands;
 
-use App\Stack;
 use App\Command;
 
 class DisableCommand extends Command
@@ -28,14 +27,10 @@ class DisableCommand extends Command
      */
     public function handle()
     {
-        $name =  $this->argument('service');
+        $service = $this->argument('service');
 
-        if (!$service = $this->service($name)) {
-            return 1;
-        }
-
-        $service->disable();
-
-        $this->info("Successfully disabled: {$service->displayName()}, don't forget to reload the stack!");
+        $this->task("Disable {$service} service", function () use ($service) {
+            $this->services->get($service)->disable();
+        });
     }
 }

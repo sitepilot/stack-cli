@@ -3,7 +3,6 @@
 namespace App\Commands;
 
 use App\Command;
-use App\Stack;
 
 class InitCommand extends Command
 {
@@ -12,7 +11,7 @@ class InitCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'init';
+    protected $signature = 'init {service?}';
 
     /**
      * The description of the command.
@@ -28,8 +27,14 @@ class InitCommand extends Command
      */
     public function handle()
     {
-        $this->task("Initialize stack configuration", function () {
-            $this->init();
-        });
+        if ($service = $this->argument('service')) {
+            $this->task("Initialize {$service} configuration", function () use ($service) {
+                $this->services->get($service)->init();
+            });
+        } else {
+            $this->task("Initialize stack configuration", function () {
+                $this->services->init();
+            });
+        }
     }
 }

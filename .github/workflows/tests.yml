@@ -71,6 +71,7 @@ jobs:
       - name: Publish container images
         run: |
           docker push ghcr.io/sitepilot/lshttpd
+          docker push ghcr.io/sitepilot/backup
           docker push ghcr.io/sitepilot/runtime:7.4
           docker push ghcr.io/sitepilot/runtime:8.0
         if: github.event.release && matrix.php == 7.4

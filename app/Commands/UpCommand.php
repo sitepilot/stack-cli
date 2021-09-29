@@ -11,7 +11,7 @@ class UpCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'up';
+    protected $signature = 'up {service?}';
 
     /**
      * The description of the command.
@@ -27,16 +27,14 @@ class UpCommand extends Command
      */
     public function handle()
     {
-        if (!$this->validate()) {
-            return 1;
+        if ($service = $this->argument('service')) {
+            $this->task("Start {$service} service", function () use ($service) {
+                $this->services->get($service)->up();
+            });
+        } else {
+            $this->task("Start stack services", function () {
+                $this->compose->up();
+            });
         }
-
-        $this->task("Initialize configuration", function () {
-            $this->init();
-        });
-
-        $this->task("Start stack containers", function () {
-            $this->compose(['up', '-d', '--remove-orphans'])->mustRun();
-        });
     }
 }

@@ -9,18 +9,8 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Feature">
-            <file>./tests/Feature/InitCommandTest.php</file>
-            <file>./tests/Feature/EnableCommandTest.php</file>
-            <file>./tests/Feature/ConfigCommandTest.php</file>
-            <file>./tests/Feature/UpCommandTest.php</file>
-            <file>./tests/Feature/LogsCommandTest.php</file>
-            <file>./tests/Feature/SiteCommandTest.php</file>
-            <file>./tests/Feature/ReloadCommandTest.php</file>
-            <file>./tests/Feature/DatabaseCommandTest.php</file>
-            <file>./tests/Feature/ServicesCommandTest.php</file>
-            <file>./tests/Feature/DownCommandTest.php</file>
-            <file>./tests/Feature/DisableCommandTest.php</file>
+        <testsuite name="Service">
+            <directory suffix="Test.php">./tests/Service</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">

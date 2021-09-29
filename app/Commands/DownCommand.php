@@ -27,22 +27,14 @@ class DownCommand extends Command
      */
     public function handle()
     {
-        if (!$this->validate()) {
-            return 1;
+        $destroy = $this->option('destroy');
+
+        if ($destroy) {
+            $destroy = $this->confirm('Are you sure you want to destroy all service data?');
         }
 
-        $cmd = ['down', '--remove-orphans'];
-
-        if ($this->option('destroy')) {
-            if ($this->confirm('Are you sure you want to destroy all service data?')) {
-                $cmd[] = '--volumes';
-            } else {
-                return 0;
-            }
-        }
-
-        $this->task("Stop stack containers", function() use ($cmd) {
-            $this->compose($cmd)->mustRun();
+        $this->task("Stop stack services", function () use ($destroy) {
+            $this->compose->down($destroy);
         });
     }
 }

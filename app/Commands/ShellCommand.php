@@ -2,7 +2,6 @@
 
 namespace App\Commands;
 
-use App\Stack;
 use App\Command;
 use Symfony\Component\Process\Process;
 
@@ -29,15 +28,8 @@ class ShellCommand extends Command
      */
     public function handle()
     {
-        $name = $this->argument('service');
+        $service = $this->services->get($this->argument('service'));
 
-        if (!$service = $this->service($name, ['enabled', 'running'])) {
-            return 1;
-        }
-
-        $this->compose(['exec', '-u', $service->user(), $service->name(), $service->shell()])
-            ->setTimeout(0)
-            ->setTty(Process::isTtySupported())
-            ->run();
+        $service->exec([$service->get('shell', 'bash')], Process::isTtySupported(), 0);
     }
 }
