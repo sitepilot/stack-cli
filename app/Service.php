@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -10,9 +11,7 @@ use App\Repositories\ConfigRepository;
 use Illuminate\Support\Facades\Config;
 use App\Repositories\ComposeRepository;
 use App\Repositories\ServicesRepository;
-use Exception;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\Process\Process;
 
 abstract class Service
 {
@@ -470,14 +469,11 @@ abstract class Service
     public function dataPath(string $path = '', bool $prefix = true): string
     {
         if ($prefix) {
-            $path = $this->name() . ($path ? DIRECTORY_SEPARATOR . $path : $path);
-
-            if ($this->namespace()) {
-                $path = $this->namespace() . DIRECTORY_SEPARATOR . $path;
-            }
+            $path = ($this->namespace() ? $this->namespace() : 'services') .
+                (DIRECTORY_SEPARATOR . $this->name() . ($path ? DIRECTORY_SEPARATOR . $path : $path));
         }
 
-        return $this->config->path('data' . DIRECTORY_SEPARATOR . $path);
+        return $this->config->path($path);
     }
 
     /**
