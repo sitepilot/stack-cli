@@ -8,6 +8,8 @@ it('can enable the mailhog service', function () {
         ->assertExitCode(0);
 
     $this->assertConfig('mailhog.enabled', true);
+
+    $this->assertConfig('caddy.routes.mailhog.path', '/.stack/mailhog');
 });
 
 it('can start the mailhog service', function () {

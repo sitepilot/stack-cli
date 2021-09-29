@@ -9,7 +9,7 @@ it('can enable the phpmyadmin service', function () {
 
     $this->assertConfig('phpmyadmin.enabled', true);
 
-    $this->assertConfig('caddy.routes.phpmyadmin.path', '/svc/phpmyadmin');
+    $this->assertConfig('caddy.routes.phpmyadmin.path', '/.stack/phpmyadmin');
 });
 
 it('can start the phpmyadmin service', function () {
