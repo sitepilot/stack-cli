@@ -77,6 +77,10 @@ class ComposeRepository
             array_push($composeCmd, '--env-file', $this->config->envFile());
         }
 
+        if (!in_array('-f', $composeCmd)) {
+            abort(1, "No services available, enable a service with `stack enable <service>` and try again.");
+        }
+
         $process = (new Process(array_merge($composeCmd, $command)))
             ->setTty($tty)
             ->setTimeout($timeout);
