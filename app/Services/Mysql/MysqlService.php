@@ -5,6 +5,7 @@ namespace App\Services\Mysql;
 use App\Service;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use LaravelZero\Framework\Exceptions\ConsoleException;
 
 class MysqlService extends Service
 {
@@ -58,9 +59,18 @@ class MysqlService extends Service
         ];
     }
 
-    public function query(string $query): string
+    public function query(string $query, int $attempts = 0): string
     {
-        return $this->exec(['bash', '-c', sprintf('mysql -N -u root -p${MYSQL_ROOT_PASSWORD} -e "%s"', $query)]);
+        try {
+            return $this->exec(['bash', '-c', sprintf('mysql -N -u root -p${MYSQL_ROOT_PASSWORD} -e "%s"', $query)]);
+        } catch (ConsoleException $e) {
+            if ($attempts < 3) {
+                sleep(2);
+                return $this->query($query, $attempts + 1);
+            } else {
+                abort(1, $e->getMessage());
+            }
+        }
     }
 
     public function createDatabase(string $name): string
